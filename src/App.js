@@ -1,7 +1,9 @@
 import BooksForm from './components/BooksForm';
 import './App.css';
-import { useCallback, useEffect, useReducer, useState } from 'react';
+import { Fragment, useCallback, useEffect, useReducer, useState } from 'react';
 import BooksList from './components/BooksList';
+import LoadingModal from './components/UI/LoadingModal';
+import ErrorModal from './components/UI/ErrorModal';
 
 const API_KEY = '&key=AIzaSyCmJ4mYkXCw6SaIBuCAPx-MqlnpXyEpGek';
 const BASE = 'https://www.googleapis.com/books/v1/volumes?q=';
@@ -23,6 +25,8 @@ const booksReducer = (state, action) => {
 				itemsShown: state.items.concat(action.items).length,
 				totalItems: action.totalItems,
 			};
+		case 'CLEAR_ITEMS':
+			return initialState;
 		default:
 			return initialState;
 	}
@@ -31,27 +35,43 @@ const booksReducer = (state, action) => {
 function App() {
 	const [booksState, dispatchBooks] = useReducer(booksReducer, initialState);
 	const [apiLink, setApiLink] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+	const [isError, setIsError] = useState(false);
 
 	const searchBooks = useCallback(
 		(startIndex) => {
 			const fetchData = async (startIndex) => {
-				const fullLink = `${apiLink}&startIndex=${startIndex}`;
-				const response = await fetch(fullLink);
+				setIsLoading(true);
 
-				const data = await response.json();
+				try {
+					const fullLink = `${apiLink}&startIndex=${startIndex}`;
+					const response = await fetch(fullLink);
 
-				if (startIndex === 0) {
-					dispatchBooks({
-						type: 'SET_ITEMS',
-						items: data.items,
-						totalItems: data.totalItems,
-					});
-				} else {
-					dispatchBooks({
-						type: 'ADD_ITEMS',
-						items: data.items,
-						totalItems: data.totalItems,
-					});
+					if (!response.ok) {
+						throw new Error(response.status);
+					}
+
+					const data = await response.json();
+
+					if (data.totalItems === 0) {
+						dispatchBooks({ type: 'CLEAR_ITEMS' });
+					} else {
+						let type = '';
+						if (startIndex === 0) {
+							type = 'SET_ITEMS';
+						} else {
+							type = 'ADD_ITEMS';
+						}
+						dispatchBooks({
+							type: type,
+							items: data.items,
+							totalItems: data.totalItems,
+						});
+					}
+					setIsLoading(false);
+				} catch (err) {
+					setIsLoading(false);
+					setIsError(true);
 				}
 			};
 
@@ -103,14 +123,22 @@ function App() {
 		setApiLink(link);
 	};
 
+	const errorCloseHandler = () => {
+		setIsError(false);
+	};
+
 	return (
-		<div className='app-wrapper'>
-			<div className='header'>
-				<p>Books App</p>
+		<Fragment>
+			{isLoading && <LoadingModal />}
+			{isError && <ErrorModal closeError={errorCloseHandler} />}
+			<div className='app-wrapper'>
+				<div className='header'>
+					<p>Books App</p>
+				</div>
+				<BooksForm fetchBooks={changeLink} />
+				<BooksList data={booksState.items} />
 			</div>
-			<BooksForm fetchBooks={changeLink} />
-			<BooksList data={booksState.items} />
-		</div>
+		</Fragment>
 	);
 }
 
