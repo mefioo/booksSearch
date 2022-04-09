@@ -75,9 +75,7 @@ function App() {
 				}
 			};
 
-			if (apiLink !== '') {
-				fetchData(startIndex);
-			}
+			fetchData(startIndex);
 		},
 		[apiLink]
 	);
@@ -104,23 +102,28 @@ function App() {
 
 	const changeLink = (data) => {
 		const { title, authors, language, isbn } = data;
-		const titleSearch = `+intitle:${title}`;
+		const titleSearch = title !== '' ? `+intitle:${title}` : '';
 		const authorSearch = authors !== '' ? `+inauthor:${authors}` : '';
-		const languageSearch = language !== '' ? `&langRestrict=${language}` : '';
 		const isbnSearch = isbn !== '' ? `+isbn:${isbn}` : '';
+		const languageSearch = language !== '' ? ` &langRestrict=${language}` : '';
 
-		const link =
-			BASE +
-			titleSearch +
-			authorSearch +
-			isbnSearch +
-			languageSearch +
-			'&maxResults=' +
-			ITEMS_AMOUNT +
-			'&orderBy=newest' +
-			API_KEY;
+		if (!(title === '' && authors === '' && isbn === '')) {
+			const link =
+				BASE +
+				titleSearch +
+				authorSearch +
+				isbnSearch +
+				languageSearch +
+				'&maxResults=' +
+				ITEMS_AMOUNT +
+				'&orderBy=newest' +
+				API_KEY;
 
-		setApiLink(link);
+			setApiLink(link);
+		} else {
+			setApiLink('');
+			dispatchBooks({ type: 'CLEAR_ITEMS' });
+		}
 	};
 
 	const errorCloseHandler = () => {

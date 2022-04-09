@@ -16,13 +16,6 @@
 	width: 60%;
 }
 
-.form-group {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-    margin-bottom: 2%;
-}
-
 .form input {
 	background: transparent;
 	border: none;
@@ -34,4 +27,12 @@
 	display: flex;
 	justify-content: flex-end;
 	margin-top: 5%;
+}
+
+.controls button {
+	background: transparent;
+	color: white;
+	border-radius: 20px;
+	border: solid 1px white;
+	cursor: pointer;
 }

@@ -1,0 +1,18 @@
+.form-group {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 2%;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.form-group input::-webkit-outer-spin-button,
+.form-group input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+.form-group input[type='number'] {
+	-moz-appearance: textfield;
+}

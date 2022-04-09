@@ -7,6 +7,7 @@ const BooksList = (props) => {
 
 	if (Object.keys(props.data).length !== 0) {
 		content = [];
+		console.log(props.data);
 		props.data.forEach((item, index) => {
 			const title = item.volumeInfo ? item.volumeInfo.title : '';
 			const cover = item.volumeInfo
@@ -21,6 +22,8 @@ const BooksList = (props) => {
 					title={title}
 					cover={cover}
 					description={description}
+					authors={item.volumeInfo.authors}
+					isbn={item.volumeInfo.industryIdentifiers}
 				/>
 			);
 		});

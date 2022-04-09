@@ -1,21 +1,58 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './BooksForm.module.css';
+import FormGroup from './FormGroup';
 
 const BooksForm = (props) => {
-	const titleInputRef = useRef();
-	const authorsInputRef = useRef();
-	const languageInputRef = useRef();
-	const isbnDateInputRef = useRef();
+	const [isExtended, setIsExtended] = useState(false);
+	const [title, setTitle] = useState('');
+	const [authors, setAuthors] = useState('');
+	const [language, setLanguage] = useState('');
+	const [isbn, setIsbn] = useState('');
+
+	const changeTitleHandler = (val) => {
+		setTitle(val);
+	};
+
+	const changeAuthorsHandler = (val) => {
+		setAuthors(val);
+	};
+
+	const changeLanguageHandler = (val) => {
+		setLanguage(val);
+	};
+
+	const changeIsbnHandler = (val) => {
+		setIsbn(val);
+	};
 
 	const formSubmitHandler = (event) => {
 		event.preventDefault();
-		props.fetchBooks({
-			title: titleInputRef.current.value,
-			authors: authorsInputRef.current.value,
-			language: languageInputRef.current.value,
-			isbn: isbnDateInputRef.current.value,
-		});
 	};
+
+	useEffect(() => {
+		const id = setTimeout(() => {
+			props.fetchBooks({
+				title,
+				authors,
+				language,
+				isbn,
+			});
+		}, 1000);
+		return () => {
+			clearTimeout(id);
+		};
+	}, [title, authors, language, isbn, props]);
+
+	const buttonContent = isExtended
+		? 'Hide advanced search'
+		: 'Show advanced search';
+
+	const searchClickHandler = () => {
+		setIsExtended(!isExtended);
+	};
+
+	const showLanguageOption =
+		title === '' && authors === '' && isbn === '' ? false : true;
 
 	return (
 		<div className={classes['form-wrapper']}>
@@ -23,24 +60,41 @@ const BooksForm = (props) => {
 				<h2>Search books</h2>
 			</div>
 			<form onSubmit={formSubmitHandler} className={classes.form}>
-				<div className={classes['form-group']}>
-					<label htmlFor='title-input'>Title: </label>
-					<input type='text' ref={titleInputRef} id='title-input'></input>
-				</div>
-				<div className={classes['form-group']}>
-					<label htmlFor='title-input'>Authors: </label>
-					<input type='text' ref={authorsInputRef} id='title-input'></input>
-				</div>
-				<div className={classes['form-group']}>
-					<label htmlFor='title-input'>Language: </label>
-					<input ref={languageInputRef} id='title-input'></input>
-				</div>
-				<div className={classes['form-group']}>
-					<label htmlFor='title-input'>ISBN number: </label>
-					<input type='text' ref={isbnDateInputRef} id='title-input'></input>
-				</div>
+				<FormGroup
+					labelText='Title: '
+					changeInput={changeTitleHandler}
+					type='text'
+					id='title'
+				/>
+				{isExtended && (
+					<FormGroup
+						labelText='Authors: '
+						changeInput={changeAuthorsHandler}
+						type='text'
+						id='authors'
+					/>
+				)}
+				{isExtended && (
+					<FormGroup
+						labelText='Language: '
+						changeInput={changeLanguageHandler}
+						type='select'
+						id='language'
+						show={showLanguageOption}
+					/>
+				)}
+				{isExtended && (
+					<FormGroup
+						labelText='ISBN number: '
+						changeInput={changeIsbnHandler}
+						type='number'
+						id='isbn'
+					/>
+				)}
 				<div className={classes.controls}>
-					<button type='submit'>Search</button>
+					<button type='button' onClick={searchClickHandler}>
+						{buttonContent}
+					</button>
 				</div>
 			</form>
 		</div>
