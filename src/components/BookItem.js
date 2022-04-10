@@ -21,8 +21,8 @@ const BookItem = (props) => {
 			<div className={classes['book-info']}>
 				<h3>{props.title}</h3>
 				<p>{description} ...</p>
-				<p>{props.authors}</p>
-				<p>{props.isbn[0].identifier}</p>
+				{/* <p>{props.authors}</p>
+				<p>{props.isbn[0].identifier}</p> */}
 			</div>
 		</li>
 	);

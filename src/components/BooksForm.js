@@ -59,7 +59,7 @@ const BooksForm = (props) => {
 			<div>
 				<h2>Search books</h2>
 			</div>
-			<form onSubmit={formSubmitHandler} className={classes.form}>
+			<form role='form' onSubmit={formSubmitHandler} className={classes.form}>
 				<FormGroup
 					labelText='Title: '
 					changeInput={changeTitleHandler}

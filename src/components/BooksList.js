@@ -4,6 +4,7 @@ import classes from './BooksList.module.css';
 
 const BooksList = (props) => {
 	let content = 'No items.';
+	console.log(props.data);
 
 	if (Object.keys(props.data).length !== 0) {
 		content = [];
@@ -22,8 +23,6 @@ const BooksList = (props) => {
 					title={title}
 					cover={cover}
 					description={description}
-					authors={item.volumeInfo.authors}
-					isbn={item.volumeInfo.industryIdentifiers}
 				/>
 			);
 		});

@@ -42,7 +42,6 @@ function App() {
 		(startIndex) => {
 			const fetchData = async (startIndex) => {
 				setIsLoading(true);
-
 				try {
 					const fullLink = `${apiLink}&startIndex=${startIndex}`;
 					const response = await fetch(fullLink);
