@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/booksSearch/static/css/main.8db0f4e1.css",
+    "main.js": "/booksSearch/static/js/main.514f3bea.js",
+    "static/js/787.289c9f75.chunk.js": "/booksSearch/static/js/787.289c9f75.chunk.js",
+    "index.html": "/booksSearch/index.html",
+    "main.8db0f4e1.css.map": "/booksSearch/static/css/main.8db0f4e1.css.map",
+    "main.514f3bea.js.map": "/booksSearch/static/js/main.514f3bea.js.map",
+    "787.289c9f75.chunk.js.map": "/booksSearch/static/js/787.289c9f75.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8db0f4e1.css",
+    "static/js/main.514f3bea.js"
+  ]
+}
