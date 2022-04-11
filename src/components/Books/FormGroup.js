@@ -8,7 +8,9 @@ const FormGroup = (props) => {
 	const changeInputHandler = (event) => {
 		if (event.target.value.length > 0) {
 			if (
-				!event.target.value[event.target.value.length - 1].match('[a-zA-Z0-9 .]')
+				!event.target.value[event.target.value.length - 1].match(
+					/^[\s\p{L} 0-9-:.,()]+$/u
+				)
 			) {
 				event.target.value = event.target.value.slice(0, -1);
 			}
@@ -37,7 +39,11 @@ const FormGroup = (props) => {
 			</option>
 		));
 		input = (
-			<select disabled={!props.show} onChange={changeOptionHandler} id={props.id}>
+			<select
+				disabled={!props.show}
+				onChange={changeOptionHandler}
+				id={props.id}
+			>
 				<option>---</option>
 				{options}
 			</select>

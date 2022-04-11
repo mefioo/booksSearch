@@ -37,7 +37,7 @@ const BooksForm = (props) => {
 				language,
 				isbn,
 			});
-		}, 1000);
+		}, 800);
 		return () => {
 			clearTimeout(id);
 		};

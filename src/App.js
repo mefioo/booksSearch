@@ -1,7 +1,7 @@
-import BooksForm from './components/BooksForm';
+import BooksForm from './components/Books/BooksForm';
 import './App.css';
 import { Fragment, useCallback, useEffect, useReducer, useState } from 'react';
-import BooksList from './components/BooksList';
+import BooksList from './components/Books/BooksList';
 import LoadingModal from './components/UI/LoadingModal';
 import ErrorModal from './components/UI/ErrorModal';
 
@@ -55,6 +55,19 @@ function App() {
 					if (data.totalItems === 0) {
 						dispatchBooks({ type: 'CLEAR_ITEMS' });
 					} else {
+						let items = [];
+						data.items.forEach((item) => {
+							const title = item.volumeInfo ? item.volumeInfo.title : '';
+							const cover = item.volumeInfo
+								? item.volumeInfo.imageLinks
+									? item.volumeInfo.imageLinks.thumbnail
+									: ''
+								: '';
+							const description = item.volumeInfo
+								? item.volumeInfo.description
+								: '';
+							items.push({ title, cover, description });
+						});
 						let type = '';
 						if (startIndex === 0) {
 							type = 'SET_ITEMS';
@@ -63,7 +76,7 @@ function App() {
 						}
 						dispatchBooks({
 							type: type,
-							items: data.items,
+							items: items,
 							totalItems: data.totalItems,
 						});
 					}

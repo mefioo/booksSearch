@@ -13,7 +13,7 @@ const BookItem = (props) => {
 		<li className={classes['book-item']}>
 			<div className={classes.photo}>
 				{props.cover ? (
-					<img src={props.cover} />
+					<img alt='Book cover' src={props.cover} />
 				) : (
 					<FontAwesomeIcon icon={faEyeSlash} />
 				)}
@@ -21,8 +21,6 @@ const BookItem = (props) => {
 			<div className={classes['book-info']}>
 				<h3>{props.title}</h3>
 				<p>{description} ...</p>
-				{/* <p>{props.authors}</p>
-				<p>{props.isbn[0].identifier}</p> */}
 			</div>
 		</li>
 	);
