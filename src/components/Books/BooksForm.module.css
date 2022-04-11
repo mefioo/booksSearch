@@ -43,3 +43,13 @@
 .controls button:hover {
 	background: rgba(0, 0, 0, 0.25);
 }
+
+@media screen and (max-width: 576px) {
+	.form-wrapper {
+		width: 90%;
+	}
+
+	.form {
+		width: 90%;
+	}
+}

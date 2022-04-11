@@ -27,3 +27,9 @@
 .book-info p:nth-child(2) {
 	font-style: italic;
 }
+
+@media (max-width: 576px) {
+	.book-item {
+		flex-direction: column;
+	}
+}
