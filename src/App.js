@@ -4,8 +4,8 @@ import { Fragment, useCallback, useEffect, useReducer, useState } from 'react';
 import BooksList from './components/Books/BooksList';
 import LoadingModal from './components/UI/LoadingModal';
 import ErrorModal from './components/UI/ErrorModal';
+import API_KEY from './to-ignore';
 
-const API_KEY = '&key=AIzaSyCmJ4mYkXCw6SaIBuCAPx-MqlnpXyEpGek';
 const BASE = 'https://www.googleapis.com/books/v1/volumes?q=';
 const ITEMS_AMOUNT = 10;
 
